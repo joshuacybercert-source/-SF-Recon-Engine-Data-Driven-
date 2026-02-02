@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+    Name="Security Posture"
+    Manufacturer="Security Posture"
+    Version="1.0.0"
+    UpgradeCode="{7D22E532-6B1A-4B4F-9F0E-8D2B1F0D8B4F}">
+    <MediaTemplate />
+
+    <StandardDirectory Id="ProgramFilesFolder">
+      <Directory Id="INSTALLFOLDER" Name="SecurityPosture">
+        <Component Id="MainExecutable" Guid="{F8B42A6F-8C9E-4E7A-9C0F-5A4A7D5E1B6D}">
+          <File Id="SecurityPostureExe" Source="..\dist\security_posture_app.exe" KeyPath="yes" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder">
+      <Component Id="DesktopShortcutComponent" Guid="{C1A1D52B-9E2E-4E10-8C0B-7E7D2C0E4D2C}">
+        <Shortcut
+          Id="DesktopShortcut"
+          Name="Security Posture"
+          Target="[INSTALLFOLDER]security_posture_app.exe"
+          WorkingDirectory="INSTALLFOLDER"
+          Icon="AppIcon" />
+        <RemoveFile Id="RemoveDesktopShortcut" Name="Security Posture.lnk" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\SecurityPosture" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+
+    <Icon Id="AppIcon" SourceFile="..\assets\app.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+
+    <Feature Id="MainFeature" Title="Security Posture" Level="1">
+      <ComponentRef Id="MainExecutable" />
+      <ComponentRef Id="DesktopShortcutComponent" />
+    </Feature>
+  </Package>
+</Wix>
