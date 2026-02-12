@@ -1,0 +1,23 @@
+sf-recon/
+│
+├── engine/
+│   ├── __init__.py
+│   ├── ingest.py
+│   ├── normalize.py
+│   ├── score.py
+│   └── utils.py
+│
+├── data/
+│   └── sample/   # optional placeholder
+│
+├── output/
+│   └── .gitkeep
+│
+├── config/
+│   └── settings.yaml
+│
+├── web/
+│   └── index.html   # placeholder for future UI
+│
+├── main.py
+└── README.md

@@ -1,0 +1,1 @@
+# Uses stdlib urllib only; no deps required
