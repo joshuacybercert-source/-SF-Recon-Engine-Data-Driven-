@@ -9,6 +9,19 @@ import os
 import urllib.parse
 import urllib.request
 
+# Load .env if present (stdlib only; no python-dotenv)
+def _load_env():
+    env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+    if os.path.isfile(env_path):
+        with open(env_path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, _, v = line.partition("=")
+                    k, v = k.strip(), v.strip().strip('"').strip("'")
+                    if k and v:
+                        os.environ.setdefault(k, v)
+
 BASE = "https://data.sfgov.org/resource"
 # App token improves rate limits; optional per Socrata docs
 HEADERS = {"Accept": "application/json"}
@@ -137,6 +150,7 @@ def fetch_hud_usps_vacancy() -> list:
 
 def fetch_all() -> dict:
     """Fetch all SF datasets; returns raw dict for downstream processing."""
+    _load_env()
     print("Fetching 311 blight cases...")
     cases_311 = fetch_311_blight()
     print(f"  Got {len(cases_311)} 311 cases")
